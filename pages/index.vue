@@ -5,7 +5,8 @@
       <h1 class="title">
         sto
       </h1>
-      <el-button>Default</el-button>
+      <el-button @click="signIn">Default</el-button>
+      {{this.$store.state.user_signedIn}}
       <h2 class="subtitle">
         Nuxt.js project
       </h2>
@@ -39,6 +40,9 @@ export default {
     }
   },
   methods:{
+    signIn:function(){
+      this.$store.commit('sign')
+    },
     saveContent:function (value) {
       let newNoteKey = firebase.database().ref().child('notes').push().key;
       firebase.database().ref('notes/'+ newNoteKey).set({content:value})
