@@ -11,9 +11,34 @@
         <el-menu-item index="2-1">User Profile</el-menu-item>
         <el-menu-item index="2-2">Sign Out</el-menu-item>
       </el-submenu>
-
     </el-menu>
-  <nuxt></nuxt>
+
+    <el-row class="tac">
+      <el-col :span="1">
+        <el-menu
+          default-active="1"
+          class="el-menu-vertical-demo"
+        >
+          <el-menu-item index="1" >
+            <i class="el-icon-date"></i>
+          </el-menu-item>
+          <el-menu-item index="2" >
+            <i class="el-icon-folder"></i>
+          </el-menu-item>
+          <el-menu-item index="3">
+            <i class="el-icon-document"></i>
+          </el-menu-item>
+          <el-menu-item index="4" >
+            <i class="el-icon-setting"></i>
+          </el-menu-item>
+        </el-menu>
+
+      </el-col>
+      <el-col :span="23">
+        <nuxt></nuxt>
+      </el-col>
+
+    </el-row>
   </div>
 </template>
 
@@ -23,6 +48,7 @@
 
     export default {
       name: "navbar",
+      layout:'sidebar',
       computed:mapState(["isLoggedIn"]),
       data:function () {
         return{
@@ -31,6 +57,7 @@
         }
       },
       created:function () {
+        document.getElementsByClassName('el-menu-vertical-demo').height = screen.height;
         if (typeof web3 !== 'undefined') {
           let web3 = new Web3(Web3.givenProvider);
           let connectedProvider = web3.currentProvider.networkVersion;
@@ -46,16 +73,30 @@
             this.myAccount = account[0];
           });
         }else{
+          this.$router.push('sign_in');
         }
+      },
+      methods:{
+        mouseover:function () {
 
-
-
+        }
       }
     }
 </script>
 
 <style scoped>
-.menu-right{
-  float: right;
-}
+
+  .menu-right{
+    float: right;
+  }
+  .el-menu-vertical-demo{
+    width:65px;
+    height: 800px;
+    /*position:fixed;*/
+  }
+
+  .sidebar-item:hover{
+    color: #00C48D !important;
+    background-color: aliceblue;
+  }
 </style>

@@ -44,7 +44,6 @@ export default {
 
     }else {
       this.$router.push('sign_in');
-      console.log("succeet to move!!")
     }
   },
   data(context){
@@ -66,7 +65,6 @@ export default {
 
 <style>
 .container {
-  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
