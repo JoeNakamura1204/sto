@@ -4,9 +4,9 @@
       <el-menu-item index="1">
         <img src="~/assets/polymath.svg">
       </el-menu-item>
-      <el-menu-item index="2"><i class="el-icon-apple"></i>{{currentProvider}}</el-menu-item>
-      <el-menu-item class="menu-right" index="3">{{myAccount}}</el-menu-item>
-      <el-submenu class="menu-right" index="4">
+      <el-menu-item index="2" v-if="isLoggedIn"><i class="el-icon-apple"></i>{{currentProvider}}</el-menu-item>
+      <el-menu-item class="menu-right" index="3" disabled v-if="isLoggedIn">{{myAccount}}</el-menu-item>
+      <el-submenu class="menu-right" index="4" v-if="isLoggedIn">
         <template slot="title"><i class="el-icon-user"></i></template>
         <el-menu-item index="2-1">User Profile</el-menu-item>
         <el-menu-item index="2-2">Sign Out</el-menu-item>
@@ -19,8 +19,11 @@
 
 <script>
   import Web3 from 'web3'
+  import {mapState} from 'vuex'
+
     export default {
       name: "navbar",
+      computed:mapState(["isLoggedIn"]),
       data:function () {
         return{
           currentProvider:"",

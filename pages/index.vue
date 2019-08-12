@@ -39,6 +39,14 @@ export default {
     AppLogo
   },
   computed:mapState(["isLoggedIn"]),
+  created:function(){
+    if(this.isLoggedIn === true){
+
+    }else {
+      this.$router.push('sign_in');
+      console.log("succeet to move!!")
+    }
+  },
   data(context){
     return{
       note_content: 'hello'
