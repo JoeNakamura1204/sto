@@ -31,19 +31,25 @@
         }
       },
       created:function () {
-        let web3 = new Web3(Web3.givenProvider);
-        let connectedProvider = web3.currentProvider.networkVersion;
-        if(connectedProvider =="42"){
-          this.currentProvider = "Kovan Testnet"
-        }else if(connectedProvider=="3"){
-          this.currentProvider = "Ropsten Testnet"
+        if (typeof web3 !== 'undefined') {
+          let web3 = new Web3(Web3.givenProvider);
+          let connectedProvider = web3.currentProvider.networkVersion;
+          if(connectedProvider =="42"){
+            this.currentProvider = "Kovan Testnet"
+          }else if(connectedProvider=="3"){
+            this.currentProvider = "Ropsten Testnet"
+          }else{
+            this.currentProvider = "Other Net"
+          }
+
+          web3.eth.getAccounts().then((account)=>{
+            this.myAccount = account[0];
+          });
         }else{
-          this.currentProvider = "Other Net"
         }
 
-        web3.eth.getAccounts().then((account)=>{
-          this.myAccount = account[0];
-        });
+
+
       }
     }
 </script>

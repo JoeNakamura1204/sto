@@ -30,23 +30,36 @@
       name: "sign_in",
       computed:mapState(["isLoggedIn"]),
       layout:"navbar",
+      created:function(){
+        if (typeof web3 !== 'undefined') {
+          let web3 = new Web3(Web3.givenProvider);
+          let password_sign = "This sign is needed to prove who you are.";
+          web3.eth.getAccounts().then((account)=> {
+            web3.eth.personal.sign(
+              password_sign,
+              account.toString(),
+              "test password"
+            ).then(console.log);
+            this.$store.commit('sign');
+            this.$router.push('/');
+          })
+        }else{
+          this.$router.push('error_metamask');
+        }
+      },
       methods:{
         signIn:function () {
-          if (typeof web3 !== 'undefined') {
-            let web3 = new Web3(Web3.givenProvider);
-            let password_sign = "This sign is needed to prove who you are.";
-            web3.eth.getAccounts().then((account)=> {
-              web3.eth.personal.sign(
-                password_sign,
-                account.toString(),
-                "test password"
-              ).then(console.log);
-              this.$store.commit('sign');
-              this.$router.push('/');
-            })
-          }else{
-            alert('MetaMaskをインストールして下さい');
-          }
+          let web3 = new Web3(Web3.givenProvider);
+          let password_sign = "This sign is needed to prove who you are.";
+          web3.eth.getAccounts().then((account)=> {
+            web3.eth.personal.sign(
+              password_sign,
+              account.toString(),
+              "test password"
+            ).then(console.log);
+            this.$store.commit('sign');
+            this.$router.push('/');
+          })
         }
       }
     }
