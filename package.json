@@ -15,7 +15,8 @@
   "dependencies": {
     "element-ui": "^2.11.1",
     "firebase": "^6.3.5",
-    "nuxt": "^2.0.0"
+    "nuxt": "^2.0.0",
+    "web3": "^1.2.1"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",

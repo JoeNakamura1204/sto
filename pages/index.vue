@@ -6,7 +6,7 @@
         sto
       </h1>
       <el-button @click="signIn">Default</el-button>
-      {{this.$store.state.user_signedIn}}
+      {{isLoggedIn}}
       <h2 class="subtitle">
         Nuxt.js project
       </h2>
@@ -22,18 +22,23 @@
       </div>
       <p><textarea v-model="note_content"></textarea></p>
       <p><button @click="saveContent(note_content)">ノートを保存する</button></p>
+
+      <nuxt-link to="sign_in">Sign In from here</nuxt-link>
     </div>
   </section>
 </template>
 
 <script>
 import AppLogo from '~/components/AppLogo.vue'
+import {mapState} from 'vuex'
 import firebase from '@/plugins/firebase'
 
 export default {
+  layout:'navbar',
   components: {
     AppLogo
   },
+  computed:mapState(["isLoggedIn"]),
   data(context){
     return{
       note_content: 'hello'
