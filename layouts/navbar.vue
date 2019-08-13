@@ -1,20 +1,23 @@
 <template>
-  <div>
-    <el-menu class="el-menu-demo" mode="horizontal" >
-      <el-menu-item index="1">
-        <img src="~/assets/polymath.svg">
-      </el-menu-item>
-      <el-menu-item index="2" v-if="isLoggedIn"><i class="el-icon-apple"></i>{{currentProvider}}</el-menu-item>
-      <el-menu-item class="menu-right" index="3" disabled v-if="isLoggedIn">{{myAccount}}</el-menu-item>
-      <el-submenu class="menu-right" index="4" v-if="isLoggedIn">
-        <template slot="title"><i class="el-icon-user"></i></template>
-        <el-menu-item index="2-1">User Profile</el-menu-item>
-        <el-menu-item index="2-2">Sign Out</el-menu-item>
-      </el-submenu>
-    </el-menu>
-
-    <el-row class="tac">
-      <el-col :span="1">
+  <el-container>
+    <el-header>
+      <el-menu class="el-menu-demo" mode="horizontal" >
+        <el-menu-item index="1">
+          <nuxt-link to="/">
+            <img src="~/assets/polymath.svg">
+          </nuxt-link>
+        </el-menu-item>
+        <el-menu-item index="2" v-if="isLoggedIn"><i class="el-icon-apple"></i>{{currentProvider}}</el-menu-item>
+        <el-menu-item class="menu-right" index="3" disabled v-if="isLoggedIn">{{myAccount}}</el-menu-item>
+        <el-submenu class="menu-right" index="4" v-if="isLoggedIn">
+          <template slot="title"><i class="el-icon-user"></i></template>
+          <el-menu-item index="2-1">User Profile</el-menu-item>
+          <el-menu-item index="2-2">Sign Out</el-menu-item>
+        </el-submenu>
+      </el-menu>
+    </el-header>
+    <el-container>
+      <el-aside width="68px">
         <el-menu
           default-active="1"
           class="el-menu-vertical-demo"
@@ -32,14 +35,16 @@
             <i class="el-icon-setting"></i>
           </el-menu-item>
         </el-menu>
+      </el-aside>
 
-      </el-col>
-      <el-col :span="23">
-        <nuxt></nuxt>
-      </el-col>
+      <el-main>
+        <el-row class="tac">
+          <nuxt></nuxt>
+        </el-row>
+      </el-main>
+    </el-container>
 
-    </el-row>
-  </div>
+  </el-container>
 </template>
 
 <script>
@@ -90,13 +95,8 @@
     float: right;
   }
   .el-menu-vertical-demo{
-    width:65px;
-    height: 800px;
-    /*position:fixed;*/
-  }
-
-  .sidebar-item:hover{
-    color: #00C48D !important;
-    background-color: aliceblue;
+    width:68px;
+    height:100%;
+    position:fixed;
   }
 </style>

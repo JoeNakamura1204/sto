@@ -1,31 +1,11 @@
 <template>
-  <section class="container">
-    <div>
-      <app-logo/>
-      <h1 class="title">
-        sto
-      </h1>
-      <el-button @click="signIn">Default</el-button>
-      {{isLoggedIn}}
-      <h2 class="subtitle">
-        Nuxt.js project
-      </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green">Documentation</a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey">GitHub</a>
-      </div>
-      <p><textarea v-model="note_content"></textarea></p>
-      <p><button @click="saveContent(note_content)">ノートを保存する</button></p>
+  <el-steps :active="2" align-center class="steps" finish-status="success">
+    <el-step title="Reserve Token Symbol"></el-step>
+    <el-step title="Create Token" ></el-step>
+    <el-step title="Manage Documents" ></el-step>
+    <el-step title="Set Up Offering Details" ></el-step>
+  </el-steps>
 
-      <nuxt-link to="sign_in">Sign In from here</nuxt-link>
-    </div>
-  </section>
 </template>
 
 <script>
@@ -64,32 +44,8 @@ export default {
 </script>
 
 <style>
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.title {
-  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* 1 */
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
-}
+  .steps{
+    margin-top: 30px;
+  }
 </style>
 
