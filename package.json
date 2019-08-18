@@ -13,10 +13,14 @@
     "precommit": "npm run lint"
   },
   "dependencies": {
+    "child_process": "^1.0.2",
     "element-ui": "^2.11.1",
     "firebase": "^6.3.5",
     "nuxt": "^2.0.0",
     "web3": "^1.2.1"
+  },
+  "browser":{
+    "child_process": false
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",

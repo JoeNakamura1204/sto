@@ -7,8 +7,8 @@
             <img src="~/assets/polymath.svg">
           </nuxt-link>
         </el-menu-item>
-        <el-menu-item index="2" v-if="isLoggedIn"><i class="el-icon-apple"></i>{{currentProvider}}</el-menu-item>
-        <el-menu-item class="menu-right" index="3" disabled v-if="isLoggedIn">{{myAccount}}</el-menu-item>
+        <el-menu-item index="2" v-if="isLoggedIn"><i class="el-icon-apple"></i>{{current_provider}}</el-menu-item>
+        <el-menu-item class="menu-right" index="3" disabled v-if="isLoggedIn">{{my_account}}</el-menu-item>
         <el-submenu class="menu-right" index="4" v-if="isLoggedIn">
           <template slot="title"><i class="el-icon-user"></i></template>
           <el-menu-item index="2-1">User Profile</el-menu-item>
@@ -19,7 +19,7 @@
     <el-container>
       <el-aside width="68px">
         <el-menu
-          default-active="1"
+          default-active="workingSteps"
           class="el-menu-vertical-demo"
         >
           <el-menu-item index="1" >
@@ -42,6 +42,7 @@
           <nuxt></nuxt>
         </el-row>
       </el-main>
+
     </el-container>
 
   </el-container>
@@ -53,12 +54,9 @@
 
     export default {
       name: "navbar",
-      layout:'sidebar',
-      computed:mapState(["isLoggedIn"]),
+      computed:mapState(["isLoggedIn","workingSteps","my_account","current_provider"]),
       data:function () {
         return{
-          currentProvider:"",
-          myAccount:""
         }
       },
       created:function () {
@@ -67,23 +65,18 @@
           let web3 = new Web3(Web3.givenProvider);
           let connectedProvider = web3.currentProvider.networkVersion;
           if(connectedProvider =="42"){
-            this.currentProvider = "Kovan Testnet"
+            this.$store.commit('get_current_provider',"Kovan Testnet");
           }else if(connectedProvider=="3"){
-            this.currentProvider = "Ropsten Testnet"
+            this.$store.commit('get_current_provider',"Ropsten Testnet");
           }else{
-            this.currentProvider = "Other Net"
+            this.$store.commit('get_current_provider',"Other Net");
           }
 
           web3.eth.getAccounts().then((account)=>{
-            this.myAccount = account[0];
+            this.$store.commit('get_my_account',account[0]);
           });
         }else{
           this.$router.push('sign_in');
-        }
-      },
-      methods:{
-        mouseover:function () {
-
         }
       }
     }
@@ -91,6 +84,9 @@
 
 <style scoped>
 
+  .el-main{
+    padding: 50px;
+  }
   .menu-right{
     float: right;
   }
