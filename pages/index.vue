@@ -11,16 +11,19 @@
 
     <ticker v-if="workingSteps ===1"></ticker>
 
-    <el-button @click="next">Next step</el-button>
+    <el-button @click="call">Call </el-button>
+    <el-button @click="poly">Create ERC1400</el-button>
   </div>
 </template>
 
 <script>
+import Web3 from 'web3'
 import AppLogo from '~/components/AppLogo.vue'
 import Ticker from '~/components/ticker.vue'
 import {mapState} from 'vuex'
-// import sto from '../polymath-core/CLI/commands/ST20Generator'
 import firebase from '@/plugins/firebase'
+
+import { Polymath, browserUtils } from '@polymathnetwork/sdk';
 
 export default {
   layout:'navbar',
@@ -28,13 +31,18 @@ export default {
     AppLogo,
     Ticker
   },
-  computed:mapState(["isLoggedIn","workingSteps"]),
+  computed:mapState(["isLoggedIn","workingSteps","my_account","current_provider","ERC1400Factory_address","token_name","token_symbol"]),
   created:function(){
     if(this.isLoggedIn === true){
 
     }else {
       this.$router.push('sign_in');
     }
+    let web3 = new Web3(Web3.givenProvider);
+    web3.eth.getAccounts().then((account)=>{
+      console.log(account)
+    });
+
   },
   data(context){
     return{
@@ -48,11 +56,158 @@ export default {
     next:function(){
       this.$store.commit('proceedStep')
     },
-    sto_generate:function () {
-      executeApp("", "", "Joe","",true);
+    call:function(){
+      let web3 = new Web3(Web3.givenProvider);
+      var myContract = new web3.eth.Contract(abi, this.ERC1400Factory_address, {
+        from: this.my_account, // default from address
+        gasPrice: '20000000000' // default gas price in wei, 20 gwei in this case
+      });
+      myContract.methods.getDeployedERC1400().call().then(function (result) {
+        console.log(result)
+        console.log(result[0x42])
+      })
+    },
+    poly:function () {
+      let web3 = new Web3(Web3.givenProvider);
+      var myContract = new web3.eth.Contract(abi, this.ERC1400Factory_address, {
+        from: this.my_account, // default from address
+        gasPrice: '20000000000' // default gas price in wei, 20 gwei in this case
+      });
+
+      console.log(myContract)
+
+      const controller = '0xb5747835141b46f7C472393B31F8F5A57F74A44f';
+      console.log(myContract.methods);
+      myContract.methods.createERC1400("joe","joe",1, [controller]).send({from: this.my_account}).then(function (result) {
+        console.log(result)
+      })
     }
   }
 }
+
+let abi =[
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "certificateSigner",
+    "outputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function",
+    "signature": "0x06b23667"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "deployedERC1400",
+    "outputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function",
+    "signature": "0x4d54de56"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "tokenDefaultPartitions",
+    "outputs": [
+      {
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function",
+    "signature": "0x8b81dced"
+  },
+  {
+    "inputs": [
+      {
+        "name": "certificat",
+        "type": "address"
+      },
+      {
+        "name": "tokenDefaul",
+        "type": "bytes32[]"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "constructor",
+    "signature": "constructor"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "name": "symbol",
+        "type": "string"
+      },
+      {
+        "name": "granularity",
+        "type": "uint256"
+      },
+      {
+        "name": "controllers",
+        "type": "address[]"
+      }
+    ],
+    "name": "createERC1400",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function",
+    "signature": "0x067f892d"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "getDeployedERC1400",
+    "outputs": [
+      {
+        "name": "",
+        "type": "address[]"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function",
+    "signature": "0x4f574b0d"
+  }
+]
+
+
+
 </script>
 
 <style>

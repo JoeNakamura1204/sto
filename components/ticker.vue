@@ -11,7 +11,7 @@
     <div  class="text item symbol-name">
       <el-form label-width="120px" label-position="top">
         <el-form-item label="Enter Token Symbol" class="token-symbol-form" required>
-          <el-input placeholder="Up to 10 characters(example: TARO-A)"></el-input>
+          <el-input placeholder="Up to 10 characters(example: TARO-A)" v-model="symbol"></el-input>
         </el-form-item>
       </el-form>
     </div>
@@ -33,7 +33,18 @@
   import {mapState} from 'vuex'
     export default {
       name: "ticker",
-      computed:mapState(["my_account","current_provider"]),
+      computed:mapState(["my_account","current_provider","token_name","token_symbol"]),
+      data:function () {
+        return{
+          symbol:""
+        }
+      },
+      watch:{
+        symbol:function () {
+          this.$store.commit('set_token_symbol',this.symbol);
+          console.log(this.token_symbol)
+        }
+      }
     }
 </script>
 

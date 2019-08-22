@@ -13,13 +13,15 @@
     "precommit": "npm run lint"
   },
   "dependencies": {
+    "@polymathnetwork/sdk": "^2.1.0",
     "child_process": "^1.0.2",
     "element-ui": "^2.11.1",
     "firebase": "^6.3.5",
     "nuxt": "^2.0.0",
+    "polymath-core": "^2.0.0",
     "web3": "^1.2.1"
   },
-  "browser":{
+  "browser": {
     "child_process": false
   },
   "devDependencies": {

@@ -2,7 +2,10 @@ export const state = () => ({
   isLoggedIn:false,
   workingSteps:1,
   my_account:"",
-  current_provider:""
+  current_provider:"",
+  ERC1400Factory_address:"0xA7afe6F836Ee1b485De131d8fCac25D1659e3d25",
+  token_name:"",
+  token_symbol:"",
 });
 
 export const mutations = {
@@ -20,6 +23,12 @@ export const mutations = {
   },
   get_current_provider(state, provider){
     state.current_provider= provider
+  },
+  set_token_name(state, token_name){
+    state.token_name= token_name
+  },
+  set_token_symbol(state, token_symbol){
+    state.token_symbol= token_symbol
   }
 };
 
