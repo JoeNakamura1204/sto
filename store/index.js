@@ -3,7 +3,7 @@ export const state = () => ({
   workingSteps:1,
   my_account:"",
   current_provider:"",
-  ERC1400Factory_address:"0xA7afe6F836Ee1b485De131d8fCac25D1659e3d25",
+  ERC1400Factory_address:"0x38Fa7E3047e93e983D60267368F06460F21a8F17",
   token_name:"",
   token_symbol:"",
 });

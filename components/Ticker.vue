@@ -5,7 +5,7 @@
       発行するトークンのシンボル
     </div>
     <div  class="text item">
-      Your token symbol will be reserved for 15 days, and is permanently yours once you create your Token. This reservation ensures that no other organization can create a token symbol identical to yours using the Polymath platform. This operation carries a cost of: 250 POLY.
+      Start your private environment to select your Token symbol, create your Token, plan and execute your Security Token Offering.
     </div>
 
     <div  class="text item symbol-name">
@@ -23,8 +23,19 @@
         </el-form-item>
       </el-form>
     </div>
+    <div class="privacy-check">
+      <template>
+        <!-- `checked` should be true or false -->
+        <el-checkbox >primary利用規約に同意します</el-checkbox>
+      </template>
+      <template>
+        <!-- `checked` should be true or false -->
+        <el-checkbox>プライバシーポリシーに同意します</el-checkbox>
+      </template>
+      <el-button @click="proceed_step">アカウントを作成する</el-button>
+    </div>
 
-    <el-button >Next step</el-button>
+
   </el-card>
 
 </template>
@@ -33,7 +44,7 @@
   import {mapState} from 'vuex'
     export default {
       name: "ticker",
-      computed:mapState(["my_account","current_provider","token_name","token_symbol"]),
+      computed:mapState(["my_account","workingSteps","current_provider","token_name","token_symbol"]),
       data:function () {
         return{
           symbol:""
@@ -44,6 +55,12 @@
           this.$store.commit('set_token_symbol',this.symbol);
           console.log(this.token_symbol)
         }
+      },
+      methods: {
+        proceed_step:function () {
+          this.$store.commit('proceedStep');
+          console.log(this.workingSteps)
+        }
       }
     }
 </script>
@@ -53,11 +70,11 @@
     width:800px !important;
     margin: auto;
   }
-
   .clearfix.tiker{
     color: rgb(37, 45, 107);
     font-weight: 800;
     font-size: 24px;
+    margin: 0px 25px;
   }
   .symbol-name{
     text-align: center;
@@ -69,5 +86,24 @@
     color: rgb(37, 45, 107);
     font-weight: 500;
     font-size: 18px;
+  }
+  .text.item{
+    margin: 25px;
+    line-height: 25px;
+    color: rgb(90, 104, 114);
+  }
+  .privacy-check{
+    display: block;
+  }
+  .el-checkbox{
+    margin: 15px auto;
+    display: block;
+    width: 250px;
+  }
+  .el-button{
+    background-color:rgb(37, 45, 107);
+    margin: auto;
+    display: block;
+    color: white;
   }
 </style>

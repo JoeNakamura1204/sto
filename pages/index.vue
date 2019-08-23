@@ -1,25 +1,27 @@
 <template>
   <div>
-    <el-steps v-if="workingSteps === 3" :active="workingSteps" align-center class="steps" finish-status="success">
-      <el-step title="Reserve Token Symbol"></el-step>
-      <el-step title="Create Token" ></el-step>
-      <el-step title="Manage Documents" ></el-step>
-      <el-step title="Set Up Offering Details" ></el-step>
+    <el-steps v-if="workingSteps !== 1" :active="workingSteps" align-center class="steps" finish-status="success">
+      <el-step title="トークンシンボルの作成"></el-step>
+      <el-step title="トークンの作成" ></el-step>
+      <el-step title="ドキュメントの管理" ></el-step>
+      <el-step title="セキュリティオファリングの設定" ></el-step>
     </el-steps>
 
-    <div class="container"></div>
+    <div class="content-container">
+      <ticker v-if="workingSteps ===1"></ticker>
+      <CreateToken v-if="workingSteps !==1"></CreateToken>
 
-    <ticker v-if="workingSteps ===1"></ticker>
-
-    <el-button @click="call">Call </el-button>
-    <el-button @click="poly">Create ERC1400</el-button>
+      <el-button @click="call">Call </el-button>
+      <el-button @click="poly">Create ERC1400</el-button>
+    </div>
   </div>
 </template>
 
 <script>
 import Web3 from 'web3'
 import AppLogo from '~/components/AppLogo.vue'
-import Ticker from '~/components/ticker.vue'
+import Ticker from '~/components/Ticker.vue'
+import CreateToken from '~/components/CreateToken.vue'
 import {mapState} from 'vuex'
 import firebase from '@/plugins/firebase'
 
@@ -29,7 +31,8 @@ export default {
   layout:'navbar',
   components: {
     AppLogo,
-    Ticker
+    Ticker,
+    CreateToken
   },
   computed:mapState(["isLoggedIn","workingSteps","my_account","current_provider","ERC1400Factory_address","token_name","token_symbol"]),
   created:function(){
@@ -64,7 +67,6 @@ export default {
       });
       myContract.methods.getDeployedERC1400().call().then(function (result) {
         console.log(result)
-        console.log(result[0x42])
       })
     },
     poly:function () {
@@ -213,6 +215,10 @@ let abi =[
 <style>
   .steps{
     margin-top: 30px;
+  }
+
+  .content-container{
+    padding: 30px;
   }
 </style>
 
