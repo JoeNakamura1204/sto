@@ -1,4 +1,4 @@
- "abi": [
+ "ERC1400Facroty_abi.js": [
   {
     "constant": true,
     "inputs": [],

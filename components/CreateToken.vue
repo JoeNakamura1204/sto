@@ -1,45 +1,37 @@
 <template>
-  <el-row :gutter="21">
-    <el-col :span="15">
-      <el-card class="box-card">
-      </el-card>
-    </el-col>
-    <el-col :span="6">
-      <el-card class="box-card">
-        <div  class="text item token-symbol">
-          <span class="token-symbol-title">トークンシンボル</span>
-          <span class="created-token-symbol">{{token_symbol}}</span>
-        </div>
-        <div  class="text item token-name">
-          トークンネーム
-          <span>Undifine</span>
-          <span>{{token_name}}</span>
-        </div>
-        <div  class="text item token-symbol">
-          トークンアドレス
-          <span>{{token_symbol}}</span>
-        </div>
-        <el-divider></el-divider>
-        <div  class="text item issuer-address">
-          発行者アドレス
-          <span>{{my_account}}</span>
-        </div>
-      </el-card>
-    </el-col>
+  <el-card class="box-card create-token">
+    <div slot="header" class="clearfix">
+      <span>株式トークンの発行</span>
+    </div>
 
-  </el-row>
+    <div class="text-item explanation">
+      次は発行するトークンに関する設定を行いましょう<br>
+      発行するトークンの名前・トークンに付与する情報のURLを設定しましょう。
 
+    </div>
 
+    <el-divider></el-divider>
+
+    <el-form label-width="120px" label-position="top" class="token-name">
+      <el-form-item label="トークン名" required>
+        <el-input placeholder="Enter Token Name" v-model="token_name_input"></el-input>
+      </el-form-item>
+    </el-form>
+    <el-button @click="create_token">トークンを作成する</el-button>
+  </el-card>
 </template>
 
 <script>
   import {mapState} from 'vuex'
+  import Web3 from 'web3'
+  import Abi from './ERC1400Facroty_abi'
     export default {
       name: "ticker",
-      computed:mapState(["my_account","workingSteps","current_provider","token_name","token_symbol"]),
+      computed:mapState(["my_account","workingSteps","ERC1400Factory_address","current_provider","token_name","token_symbol","ERC1400_address"]),
       data:function () {
         return{
-          symbol:""
+          symbol:"",
+          token_name_input:""
         }
       },
       watch:{
@@ -49,18 +41,46 @@
         }
       },
       methods: {
-        proceed_step:function () {
-          this.$store.commit('proceedStep');
-          console.log(this.workingSteps)
-        }
+        create_token:function () {
+          // contract abi
+          let abi = Abi['abi'];
+          let web3 = new Web3(Web3.givenProvider);
+          // connect contract
+          let myContract = new web3.eth.Contract(abi, this.ERC1400Factory_address, {
+            from: this.my_account, // default from address
+            gasPrice: '20000000000' // default gas price in wei, 20 gwei in this case
+          });
+
+          let self = this;
+          // create ERC1400
+          myContract.methods.createERC1400(this.token_name_input,this.token_symbol,1, [this.my_account]).send({from: this.my_account})
+            .then(function (result) {
+              console.log(result);
+              myContract.methods.getDeployedERC1400().call().then(function (result) {
+                const ERC1400_id = result.length -1;
+                const ERC1400Contract_address = result[ERC1400_id];
+                console.log(ERC1400_id);
+                console.log(result[ERC1400_id]);
+                console.log(self.token_name_input);
+                self.$store.commit('set_ERC1400_address',ERC1400Contract_address);
+              })
+            })
+          // proceed step
+          this.$store.commit('proceedStep')
+        },
       }
     }
+
 </script>
 
 <style scoped>
-  .box-card{
-    width:450px !important;
-    margin: auto;
+  .box-card.create-token{
+    color: rgb(37, 45, 107);
+    width: 750px;
+  }
+  .clearfix{
+    font-size: 20px;
+    font-weight: 600;
   }
   .text.item{
     color: rgb(37, 45, 107);
@@ -69,11 +89,6 @@
   .text.item>span{
     color: rgb(90, 104, 114);
     margin-bottom: 15px;
-  }
-  .text.item.token-symbol{
-    background-color: #ebf0f7;
-    padding: 15px 35px;
-    text-align: center;
   }
   .text.item.token-symbol>span{
     background-color: white;
@@ -88,5 +103,14 @@
     color: rgb(37, 45, 107);
     font-size: 24px;
     font-weight: 600;
+  }
+  .text-item.explanation{
+    color: rgb(90, 104, 114);
+    line-height: 25px;
+  }
+  .el-button{
+    background-color:rgb(37, 45, 107);
+    display: block;
+    color: white;
   }
 </style>
