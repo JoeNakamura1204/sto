@@ -53,20 +53,19 @@
 
           let self = this;
           // create ERC1400
-          myContract.methods.createERC1400(this.token_name_input,this.token_symbol,1, [this.my_account]).send({from: this.my_account})
+          myContract.methods.createERC1400(this.token_name_input,this.token_symbol,1, [this.my_account], this.my_account).send({from: this.my_account})
             .then(function (result) {
-              console.log(result);
               myContract.methods.getDeployedERC1400().call().then(function (result) {
                 const ERC1400_id = result.length -1;
                 const ERC1400Contract_address = result[ERC1400_id];
                 console.log(ERC1400_id);
                 console.log(result[ERC1400_id]);
-                console.log(self.token_name_input);
+                self.$store.commit('set_token_name',self.token_name_input);
                 self.$store.commit('set_ERC1400_address',ERC1400Contract_address);
               })
-            })
+            });
           // proceed step
-          this.$store.commit('proceedStep')
+          this.$store.commit('proceedStep');
         },
       }
     }

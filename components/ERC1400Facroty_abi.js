@@ -89,19 +89,23 @@ module.exports={
         {
           "name": "controllers",
           "type": "address[]"
+        },
+        {
+          "name": "Signer",
+          "type": "address"
         }
       ],
       "name": "createERC1400",
       "outputs": [
         {
-          "name": "",
+          "name": "number",
           "type": "uint256"
         }
       ],
       "payable": false,
       "stateMutability": "nonpayable",
       "type": "function",
-      "signature": "0x067f892d"
+      "signature": "0x40e76872"
     },
     {
       "constant": true,

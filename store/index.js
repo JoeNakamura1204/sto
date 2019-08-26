@@ -3,8 +3,8 @@ export const state = () => ({
   workingSteps:1,
   my_account:"",
   current_provider:"",
-  ERC1400Factory_address:"0x38Fa7E3047e93e983D60267368F06460F21a8F17",
-  ERC1400_address:"0x17ac32cCb34AB7b0FD22B8dd0F6cB729114929d6",
+  ERC1400Factory_address:"0x1C42064E15d780Ea98Ce650158be5951cFEdC6ea",
+  ERC1400_address:"0x6005B9B9B0051Aa046354827dDc336361d718A5C",
   token_name:"Undifined",
   token_symbol:"",
 });
@@ -15,7 +15,7 @@ export const mutations = {
   },
   proceedStep(state){
     state.workingSteps++;
-    if(state.workingSteps == 4 ){
+    if(state.workingSteps == 5 ){
       state.workingSteps = 1
     }
   },

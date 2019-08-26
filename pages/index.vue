@@ -13,6 +13,7 @@
         <el-col :span="15">
           <CreateToken v-if="workingSteps ===2"></CreateToken>
           <DocumentManage v-if="workingSteps ===3"></DocumentManage>
+          <AddInvester v-if="workingSteps ===4"></AddInvester>
         </el-col>
         <el-col :span="6">
           <Side_token></Side_token>
@@ -29,6 +30,7 @@ import Ticker from '~/components/Ticker.vue'
 import Side_token from '~/components/Side_token.vue'
 import CreateToken from '~/components/CreateToken.vue'
 import DocumentManage from '~/components/DocumentManage.vue'
+import AddInvester from '~/components/AddInvester.vue'
 
 import {mapState} from 'vuex'
 import firebase from '@/plugins/firebase'
@@ -41,7 +43,8 @@ export default {
     Ticker,
     CreateToken,
     Side_token,
-    DocumentManage
+    DocumentManage,
+    AddInvester
   },
   computed:mapState(["isLoggedIn","workingSteps","my_account","current_provider","ERC1400Factory_address","token_name","token_symbol"]),
   created:function(){

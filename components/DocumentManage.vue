@@ -37,37 +37,43 @@
       methods: {
         set_document:function () {
           // contract abi
-          let abi = Abi['abi'];
-          let web3 = new Web3(Web3.givenProvider);
-          // connect contract
-          let ERC1400Contract = new web3.eth.Contract(abi, this.ERC1400_address, {
-            from: this.my_account, // default from address
-            gasPrice: '20000000000' // default gas price in wei, 20 gwei in this case
-          });
-          console.log(ERC1400Contract.methods);
-          this.token_name_byte = web3.utils.sha3(this.token_document_url);
+          if(this.token_document_url.length > 0){
+            let abi = Abi['abi'];
+            let web3 = new Web3(Web3.givenProvider);
+            // connect contract
+            let ERC1400Contract = new web3.eth.Contract(abi, this.ERC1400_address, {
+              from: this.my_account, // default from address
+              gasPrice: '20000000000' // default gas price in wei, 20 gwei in this case
+            });
+            console.log(ERC1400Contract.methods);
+            this.token_name_byte = web3.utils.sha3(this.token_document_url);
 
-          ERC1400Contract.methods.setDocument(this.token_name_byte, this.token_document_url,this.token_name_byte).send({from:this.my_account}).then(function (result) {
-            console.log(result)
-          });
-
-          // this.$store.commit('proceedStep')
+            ERC1400Contract.methods.setDocument(this.token_name_byte, this.token_document_url,this.token_name_byte).send({from:this.my_account}).then(function (result) {
+              console.log(result)
+            });
+            this.$store.commit('proceedStep')
+          }else{
+            alert("URLを入力してください！")
+          }
         },
         get_document:function () {
-          // contract abi
-          let abi = Abi['abi'];
-          let web3 = new Web3(Web3.givenProvider);
-          // connect contract
-          let ERC1400Contract = new web3.eth.Contract(abi, this.ERC1400_address, {
-            from: this.my_account, // default from address
-            gasPrice: '20000000000' // default gas price in wei, 20 gwei in this case
-          });
+          if(this.token_document_url.length > 0){
+            let abi = Abi['abi'];
+            let web3 = new Web3(Web3.givenProvider);
+            // connect contract
+            let ERC1400Contract = new web3.eth.Contract(abi, this.ERC1400_address, {
+              from: this.my_account, // default from address
+              gasPrice: '20000000000' // default gas price in wei, 20 gwei in this case
+            });
 
-          ERC1400Contract.methods.getDocument(this.token_name_byte).call().then(function (result) {
-            console.log(result)
-          });
-
-          this.$store.commit('proceedStep')
+            ERC1400Contract.methods.getDocument(this.token_name_byte).call().then(function (result) {
+              console.log(result)
+            });
+            console.log(ERC1400Contract.methods);
+            this.$store.commit('proceedStep')
+          }else{
+           alert("URLを入力してください！")
+          }
         }
       }
     }
