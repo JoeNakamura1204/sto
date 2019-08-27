@@ -22,15 +22,25 @@
           default-active="workingSteps"
           class="el-menu-vertical-demo"
         >
-          <el-menu-item index="1" >
-            <i class="el-icon-date"></i>
-          </el-menu-item>
-          <el-menu-item index="2" >
-            <i class="el-icon-folder"></i>
-          </el-menu-item>
-          <el-menu-item index="3">
-            <i class="el-icon-document"></i>
-          </el-menu-item>
+          <nuxt-link to="/home">
+            <el-menu-item index="1" >
+              <i class="el-icon-s-home"></i>
+            </el-menu-item>
+          </nuxt-link>
+
+          <nuxt-link to="/documents">
+            <el-menu-item index="2">
+              <i class="el-icon-document"></i>
+            </el-menu-item>
+          </nuxt-link>
+
+          <nuxt-link to="/investers">
+            <el-menu-item index="3" >
+             <i class="el-icon-user"></i>
+            </el-menu-item>
+          </nuxt-link>
+
+
           <el-menu-item index="4" >
             <i class="el-icon-setting"></i>
           </el-menu-item>
@@ -65,15 +75,15 @@
           let web3 = new Web3(Web3.givenProvider);
           let connectedProvider = web3.currentProvider.networkVersion;
           if(connectedProvider =="42"){
-            this.$store.commit('get_current_provider',"Kovan Testnet");
+            this.$store.commit('set_current_provider',"Kovan Testnet");
           }else if(connectedProvider=="3"){
-            this.$store.commit('get_current_provider',"Ropsten Testnet");
+            this.$store.commit('set_current_provider',"Ropsten Testnet");
           }else{
-            this.$store.commit('get_current_provider',"Other Net");
+            this.$store.commit('set_current_provider',"Local Net");
           }
 
           web3.eth.getAccounts().then((account)=>{
-            this.$store.commit('get_my_account',account[0]);
+            this.$store.commit('set_my_account',account[0]);
           });
         }else{
           this.$router.push('sign_in');

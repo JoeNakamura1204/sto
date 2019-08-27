@@ -13,7 +13,7 @@
 
     <el-form label-width="120px" label-position="top" class="token-name">
       <el-form-item label="追加する投資家アドレス" required>
-        <el-input placeholder="Enter Token Name" v-model="invester_address"></el-input>
+        <el-input placeholder="Enter Invester's address here" v-model="invester_address"></el-input>
       </el-form-item>
     </el-form>
     <el-button @click="add_invester">投資家を追加する</el-button>
@@ -68,12 +68,17 @@
             from: this.my_account, // default from address
             gasPrice: '20000000000' // default gas price in wei, 20 gwei in this case
           });
-         console.log(ERC1400Contract.methods)
-          ERC1400Contract.methods.totalSupply().call().then(function (result) {
+          const partion = "0xa6ec48d01da0abd31f5d1eb60b94e44cd1bbca877b1c2d90617bbd9de1b44ab3"
+         console.log(ERC1400Contract.methods);
+          ERC1400Contract.methods.balanceOfByPartition(partion,"0xe558281Caa9c8a4c19f53ee4F6FFB9b6253Fe721").call().then(function (result) {
             console.log(result)
           });
 
-          ERC1400Contract.methods.certificateSigners(this.my_account).call().then(function (result) {
+          ERC1400Contract.methods.totalPartitions().call().then(function (result) {
+            console.log(result)
+          });
+
+          ERC1400Contract.methods.canTransferByPartition(partion,this.my_account,5000,partion).call().then(function (result) {
             console.log(result)
           });
         },
@@ -86,13 +91,15 @@
             gasPrice: '20000000000' // default gas price in wei, 20 gwei in this case
           });
 
-          const partition = web3.utils.sha3("Partion");
-          ERC1400Contract.methods.issueByPartition(partition, "0x530555B7aeA08De4388B8581D51Ee07013280150",10000, partition).send({from: this.my_account})
+          const partition = web3.utils.sha3("Partionfafdffsda");
+          const partition22 = "0xa6ec48d01da0abd31f5d1eb60b94e44cd1bbca877b1c2d90617bbd9de1b44ab3"
+          ERC1400Contract.methods.issueByPartition(partition,"0xe558281Caa9c8a4c19f53ee4F6FFB9b6253Fe721",1000, partition).send({from: this.my_account})
             .then(function (result) {
               console.log(result);
           });
           // ERC1400Contract.methods.addMinter(this.my_account).send().then(function (result) {
           //   console.log(result)
+
           // })
         }
       }

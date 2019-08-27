@@ -7,14 +7,19 @@
     <div class="text-item explanation">
       次は発行するトークンに関する設定を行いましょう<br>
       発行するトークンの名前・トークンに付与する情報のURLを設定しましょう。
-
     </div>
 
     <el-divider></el-divider>
 
     <el-form label-width="120px" label-position="top" class="token-name">
       <el-form-item label="トークン名" required>
-        <el-input placeholder="Enter Token Name" v-model="token_name_input"></el-input>
+        <el-input
+          placeholder="Enter Token Name"
+          suffix-icon="el-icon-success"
+          maxlength="7"
+          show-word-limit
+          v-model="token_name_input" >
+        </el-input>
       </el-form-item>
     </el-form>
     <el-button @click="create_token">トークンを作成する</el-button>
@@ -30,14 +35,16 @@
       computed:mapState(["my_account","workingSteps","ERC1400Factory_address","current_provider","token_name","token_symbol","ERC1400_address"]),
       data:function () {
         return{
-          symbol:"",
           token_name_input:""
         }
       },
       watch:{
-        symbol:function () {
-          this.$store.commit('set_token_symbol',this.symbol);
-          console.log(this.token_symbol)
+        token_name_input:function () {
+          if(this.token_name_input.length > 0){
+            document.getElementsByClassName('el-input__icon el-icon-success')[0].style.color="#67c23a"
+          }else{
+            document.getElementsByClassName('el-input__icon el-icon-success')[0].style.color="#909399"
+          }
         }
       },
       methods: {
@@ -53,19 +60,24 @@
 
           let self = this;
           // create ERC1400
-          myContract.methods.createERC1400(this.token_name_input,this.token_symbol,1, [this.my_account], this.my_account).send({from: this.my_account})
-            .then(function (result) {
-              myContract.methods.getDeployedERC1400().call().then(function (result) {
-                const ERC1400_id = result.length -1;
-                const ERC1400Contract_address = result[ERC1400_id];
-                console.log(ERC1400_id);
-                console.log(result[ERC1400_id]);
-                self.$store.commit('set_token_name',self.token_name_input);
-                self.$store.commit('set_ERC1400_address',ERC1400Contract_address);
+          if(this.token_name_input.length>0){
+            myContract.methods.createERC1400(this.token_name_input, this.token_symbol,1, [this.my_account], this.my_account).send({from: this.my_account})
+              .then(function (result) {
+                myContract.methods.getDeployedERC1400().call().then(function (result) {
+                  const ERC1400_id = result.length -1;
+                  const ERC1400Contract_address = result[ERC1400_id];
+                  console.log(ERC1400_id);
+                  console.log(result[ERC1400_id]);
+                  self.$store.commit('set_token_name',self.token_name_input);
+                  self.$store.commit('set_ERC1400_address',ERC1400Contract_address);
+                  self.$store.commit('set_token_amount',0);
+                  // proceed step
+                  self.$store.commit('proceedStep');
               })
             });
-          // proceed step
-          this.$store.commit('proceedStep');
+          }else{
+            alert("トークンの名前を入力してください")
+          }
         },
       }
     }

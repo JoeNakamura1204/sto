@@ -11,7 +11,13 @@
     <div  class="text item symbol-name">
       <el-form label-width="120px" label-position="top">
         <el-form-item label="Enter Token Symbol" class="token-symbol-form" required>
-          <el-input placeholder="Up to 10 characters(example: TARO-A)" v-model="symbol"></el-input>
+          <el-input
+            placeholder="Up to 10 characters(example: TARO-A)"
+            suffix-icon="el-icon-success"
+            maxlength="7"
+            show-word-limit
+            v-model="symbol">
+          </el-input>
         </el-form-item>
       </el-form>
     </div>
@@ -52,14 +58,22 @@
       },
       watch:{
         symbol:function () {
+          if(this.symbol.length>0){
+            document.getElementsByClassName('el-input__icon el-icon-success')[0].style.color="#67c23a"
+          }else{
+            document.getElementsByClassName('el-input__icon el-icon-success')[0].style.color="#909399"
+          }
           this.$store.commit('set_token_symbol',this.symbol);
-          console.log(this.token_symbol)
         }
       },
       methods: {
         proceed_step:function () {
-          this.$store.commit('proceedStep');
-          console.log(this.workingSteps)
+          if(this.symbol.length>0){
+            this.$store.commit('proceedStep');
+            console.log(this.workingSteps)
+          }else{
+            alert("トークンシンボルを入力してください")
+          }
         }
       }
     }

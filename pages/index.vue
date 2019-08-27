@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-steps v-if="workingSteps !== 1" :active="workingSteps" align-center class="steps" finish-status="success">
-      <el-step title="トークンシンボルの作成"></el-step>
+      <el-step title="トークンシンボルの設定"></el-step>
       <el-step title="トークンの作成" ></el-step>
       <el-step title="ドキュメントの管理" ></el-step>
       <el-step title="セキュリティオファリングの設定" ></el-step>

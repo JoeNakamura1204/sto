@@ -13,11 +13,13 @@
 
     <el-form label-width="120px" label-position="top" class="token-name">
       <el-form-item label="株式トークンに付与する情報URL" required>
-        <el-input placeholder="Enter URL here" v-model="token_document_url"></el-input>
+        <el-input placeholder="Enter URL here" v-model="token_document_url">
+          <template slot="prepend">Http://</template>
+        </el-input>
       </el-form-item>
     </el-form>
-    <el-button @click="set_document">トークンに情報を付与する</el-button>
-    <el-button @click="get_document">トークンに情報を閲覧する</el-button>
+    <el-button class="set-document" @click="set_document">トークンに情報を付与する</el-button>
+    <el-button @click="skip">あとで設定する</el-button>
   </el-card>
 </template>
 
@@ -48,13 +50,19 @@
             console.log(ERC1400Contract.methods);
             this.token_name_byte = web3.utils.sha3(this.token_document_url);
 
+            const self = this;
+
             ERC1400Contract.methods.setDocument(this.token_name_byte, this.token_document_url,this.token_name_byte).send({from:this.my_account}).then(function (result) {
-              console.log(result)
+              console.log(result);
+              self.$store.commit('set_documents_attached',self.token_document_url);
+              self.$store.commit('proceedStep')
             });
-            this.$store.commit('proceedStep')
           }else{
             alert("URLを入力してください！")
           }
+        },
+        skip:function(){
+          this.$store.commit('proceedStep')
         },
         get_document:function () {
           if(this.token_document_url.length > 0){
@@ -115,9 +123,8 @@
     color: rgb(90, 104, 114);
     line-height: 25px;
   }
-  .el-button{
+  .el-button.set-document{
     background-color:rgb(37, 45, 107);
-    display: block;
     color: white;
   }
 </style>

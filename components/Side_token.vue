@@ -1,25 +1,29 @@
 <template>
   <el-card class="box-card token-symbol">
     <div  class="text item token-symbol">
-      <span class="token-symbol-title">トークンシンボル</span>
+      <span class="token-symbol-title">トークンシンボル<i id="token-symbol-created" class="el-icon-success"></i></span>
       <span class="created-token-symbol">{{token_symbol}}</span>
     </div>
 
     <el-divider></el-divider>
     <div  class="text item token-name">
       トークンネーム
-      <span class="token-info">{{token_name}}</span>
+      <span class="token-info">{{token_name}}<i id="token-name-created" class="el-icon-success"></i></span>
     </div>
     <div  class="text item ERC1400-address">
       トークンアドレス
-      <span class="token-info">{{ERC1400_address}}</span>
+      <span class="token-info">{{ERC1400_address}}<i id="token-address-created" class="el-icon-success"></i></span>
+    </div>
+    <div  class="text item ERC1400-address">
+      発行株式数
+      <span class="token-info">{{token_amount}}<i id="token-amount-created" class="el-icon-success"></i></span>
     </div>
 
     <el-divider></el-divider>
 
     <div  class="text item issuer-address">
       発行者アドレス
-      <span>{{my_account}}</span>
+      <span>{{my_account}}<i id="my-account-created" class="el-icon-success"></i></span>
     </div>
   </el-card>
 </template>
@@ -30,7 +34,7 @@
   import Abi from './ERC1400Facroty_abi'
     export default {
       name: "ticker",
-      computed:mapState(["my_account","workingSteps","ERC1400Factory_address","current_provider","token_name","token_symbol","ERC1400_address"]),
+      computed:mapState(["my_account","workingSteps","ERC1400Factory_address","current_provider","token_name","token_symbol","ERC1400_address","token_amount"]),
       data:function () {
         return{
           symbol:"",
@@ -46,7 +50,7 @@
 
 <style scoped>
   .box-card.token-symbol{
-    width:450px;
+    width:455px;
     margin: auto;
   }
   .text.item{
@@ -65,7 +69,9 @@
   .token-info{
     display: block;
   }
-
+  i.el-icon-success{
+    margin-left: 5px;
+  }
   .text.item.token-symbol>span{
     background-color: white;
     padding: 15px;
