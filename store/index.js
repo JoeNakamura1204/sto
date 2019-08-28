@@ -1,16 +1,23 @@
 export const state = () => ({
   isLoggedIn:false,
-  workingSteps:1,
+  workingSteps:4,
   my_account:"",
   current_provider:"",
   ERC1400Factory_address:"0xba206a609f46230d13744e87D8DbECe6f1a3e813",
-  ERC1400_address:"Not issue yet",
+  ERC1400_address:"0xe7f2c7A808c525c5eB5be00c679d6CE7936eE8C8",
   token_name:"Not issued yet",
   token_symbol:"",
   token_amount:0,
   documents_attached:["https://polymath.network/"],
   investers_address:[],
-  partion_history:[]
+  partion_history:[
+    {
+      txhash: "fdfadsfsdafgsasgsasa",
+      amount:1000,
+      name:"Name",
+      data:"sample.com"
+    }
+  ]
 });
 
 export const mutations = {
@@ -49,11 +56,22 @@ export const mutations = {
   set_documents_attached(state, url){
     state.documents_attached.push(url)
   },
+  // 一旦応急処置
   set_investers_address(state, invester_address){
-    state.investers_address.push(invester_address)
+    const invester = {
+      date: "2019/08/29",
+      name: "undifined",
+      address: invester_address
+    };
+    state.investers_address.push(invester)
   },
-  set_partion_history(state, address,amount, name, data){
-    const partion = {address:"",amount:0,name:"",data:""};
+  set_partion_history(state, txhash,amount, name, data){
+    const partion = {
+      txhash: txhash,
+      amount:amount,
+      name:name,
+      data:data
+    };
     state.partion_history.push(partion)
   }
 };

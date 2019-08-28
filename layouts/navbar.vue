@@ -28,20 +28,26 @@
             </el-menu-item>
           </nuxt-link>
 
+          <nuxt-link to="/issueToken">
+            <el-menu-item index="2" >
+              <i class="el-icon-coin"></i>
+            </el-menu-item>
+          </nuxt-link>
+
           <nuxt-link to="/documents">
-            <el-menu-item index="2">
+            <el-menu-item index="3">
               <i class="el-icon-document"></i>
             </el-menu-item>
           </nuxt-link>
 
           <nuxt-link to="/investers">
-            <el-menu-item index="3" >
+            <el-menu-item index="4" >
              <i class="el-icon-user"></i>
             </el-menu-item>
           </nuxt-link>
 
 
-          <el-menu-item index="4" >
+          <el-menu-item index="5" >
             <i class="el-icon-setting"></i>
           </el-menu-item>
         </el-menu>

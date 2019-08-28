@@ -50,28 +50,6 @@
         }
       },
       methods: {
-        add_invester:function () {
-          // contract abi
-          let abi = Abi['abi'];
-          let web3 = new Web3(Web3.givenProvider);
-          // connect contract
-          let ERC1400Contract = new web3.eth.Contract(abi, this.ERC1400_address, {
-            from: this.my_account, // default from address
-            gasPrice: '20000000000' // default gas price in wei, 20 gwei in this case
-          });
-          console.log(ERC1400Contract.methods);
-          ERC1400Contract.methods.isMinter("0x1c894B2b52AD5189e16618Df912921b9bB49C831").call({from: this.my_account})
-            .then(function (result) {
-              console.log(result);
-          });
-          // ERC1400Contract.methods.addMinter("0x1c894B2b52AD5189e16618Df912921b9bB49C831").send({from: this.my_account})
-          //   .then(function (result) {
-          //     console.log(result);
-          // });
-          // proceed step
-          // this.$store.commit('proceedStep')
-        },
-
         pra:function () {
           let abi = Abi['abi'];
           let web3 = new Web3(Web3.givenProvider);
@@ -108,10 +86,10 @@
           const self = this;
           ERC1400Contract.methods.issueByPartition(partition,this.my_account, this.issue_token_amount, attache_data).send({from: this.my_account})
             .then(function (result) {
-              // console.log(result{"transactionHash"});
-              // this.$store.commit('set_partion_history',this.issue_token_amount)
-              self.$store.commit('set_token_amount',this.issue_token_amount)
-              self.$store.commit('proceedStep')
+              console.log(result.transactionHash);
+              self.$store.commit('set_partion_history', result.transactionHash,self.issue_token_amount,self.issue_token_partion, self.issue_token_attached_data);
+              self.$store.commit('set_token_amount',self.issue_token_amount);
+              console.log()
           });
         },
         skip:function(){
