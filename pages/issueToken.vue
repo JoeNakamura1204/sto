@@ -52,7 +52,7 @@
     components:{
       Side_token
     },
-    computed:mapState(["isLoggedIn","documents_attached","my_account","ERC1400_address"]),
+    computed:mapState(["isLoggedIn","documents_attached","my_account","ERC1400_address","partion_history"]),
     data:function () {
       return{
         issue_token_partion:"",
@@ -75,10 +75,15 @@
        const self = this;
        ERC1400Contract.methods.issueByPartition(partition,this.my_account, this.issue_token_amount, attache_data).send({from: this.my_account})
          .then(function (result) {
-           console.log(result.transactionHash);
-           self.$store.commit('set_partion_history', result.transactionHash, self.issue_token_amount,self.issue_token_partion, self.issue_token_attached_data);
+           const partion = {
+             txhash: result.transactionHash,
+             amount:self.issue_token_amount,
+             name:self.issue_token_partion,
+             data:self.issue_token_attached_data
+           };
+           self.$store.commit('set_partion_history',partion);
            self.$store.commit('set_token_amount',self.issue_token_amount);
-           console.log()
+           console.log(self.partion_history);
            self.$router.push('home');
          });
      }

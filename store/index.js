@@ -1,10 +1,10 @@
 export const state = () => ({
   isLoggedIn:false,
-  workingSteps:4,
+  workingSteps:1,
   my_account:"",
   current_provider:"",
   ERC1400Factory_address:"0xba206a609f46230d13744e87D8DbECe6f1a3e813",
-  ERC1400_address:"0xe7f2c7A808c525c5eB5be00c679d6CE7936eE8C8",
+  ERC1400_address:"0xB518c15b9160003BA8ae28E83AbdB504c961Cc4B",
   token_name:"Not issued yet",
   token_symbol:"",
   token_amount:0,
@@ -13,6 +13,7 @@ export const state = () => ({
   partion_history:[
     {
       txhash: "fdfadsfsdafgsasgsasa",
+      partition_byte:"d",
       amount:1000,
       name:"Name",
       data:"sample.com"
@@ -65,14 +66,8 @@ export const mutations = {
     };
     state.investers_address.push(invester)
   },
-  set_partion_history(state, txhash,amount, name, data){
-    const partion = {
-      txhash: txhash,
-      amount:amount,
-      name:name,
-      data:data
-    };
-    state.partion_history.push(partion)
+  set_partion_history(state, partition){
+    state.partion_history.push(partition)
   }
 };
 
