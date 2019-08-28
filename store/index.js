@@ -7,8 +7,10 @@ export const state = () => ({
   ERC1400_address:"Not issue yet",
   token_name:"Not issued yet",
   token_symbol:"",
-  token_amount:"Not issue yet",
-  documents_attached:[]
+  token_amount:0,
+  documents_attached:["https://polymath.network/"],
+  investers_address:[],
+  partion_history:[]
 });
 
 export const mutations = {
@@ -17,8 +19,8 @@ export const mutations = {
   },
   proceedStep(state){
     state.workingSteps++;
-    if(state.workingSteps == 5 ){
-      state.workingSteps = 1
+    if(state.workingSteps == 6 ){
+      this.$router.push('home');
     }
   },
   set_my_account(state, account){
@@ -29,7 +31,7 @@ export const mutations = {
     state.current_provider= provider
   },
   set_token_amount(state, amount){
-    state.token_amount = amount;
+    state.token_amount = state.token_amount + amount;
     // document.getElementById('token-amount-created').style.color="#67c23a"
   },
   set_token_name(state, token_name){
@@ -46,6 +48,13 @@ export const mutations = {
   },
   set_documents_attached(state, url){
     state.documents_attached.push(url)
+  },
+  set_investers_address(state, invester_address){
+    state.investers_address.push(invester_address)
+  },
+  set_partion_history(state, address,amount, name, data){
+    const partion = {address:"",amount:0,name:"",data:""};
+    state.partion_history.push(partion)
   }
 };
 

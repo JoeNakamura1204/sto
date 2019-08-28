@@ -4,7 +4,8 @@
       <el-step title="トークンシンボルの設定"></el-step>
       <el-step title="トークンの作成" ></el-step>
       <el-step title="ドキュメントの管理" ></el-step>
-      <el-step title="セキュリティオファリングの設定" ></el-step>
+      <el-step title="投資家の追加" ></el-step>
+      <el-step title="セキュリティオファリングの設定"></el-step>
     </el-steps>
 
     <div class="content-container">
@@ -14,6 +15,7 @@
           <CreateToken v-if="workingSteps ===2"></CreateToken>
           <DocumentManage v-if="workingSteps ===3"></DocumentManage>
           <AddInvester v-if="workingSteps ===4"></AddInvester>
+          <IssueToken v-if="workingSteps===5"></IssueToken>
         </el-col>
         <el-col :span="6">
           <Side_token></Side_token>
@@ -31,6 +33,7 @@ import Side_token from '~/components/Side_token.vue'
 import CreateToken from '~/components/CreateToken.vue'
 import DocumentManage from '~/components/DocumentManage.vue'
 import AddInvester from '~/components/AddInvester.vue'
+import IssueToken from '~/components/IssueToken.vue'
 
 import {mapState} from 'vuex'
 import firebase from '@/plugins/firebase'
@@ -44,7 +47,8 @@ export default {
     CreateToken,
     Side_token,
     DocumentManage,
-    AddInvester
+    AddInvester,
+    IssueToken
   },
   computed:mapState(["isLoggedIn","workingSteps","my_account","current_provider","ERC1400Factory_address","token_name","token_symbol"]),
   created:function(){
