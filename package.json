@@ -17,7 +17,7 @@
     "child_process": "^1.0.2",
     "element-ui": "^2.11.1",
     "firebase": "^6.3.5",
-    "nuxt": "^2.0.0",
+    "nuxt": "^2.15.8",
     "polymath-core": "^2.0.0",
     "web3": "^1.2.1"
   },
